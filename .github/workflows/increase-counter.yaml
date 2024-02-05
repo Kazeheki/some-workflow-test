@@ -47,7 +47,7 @@ jobs:
           script: |
             github.rest.actions.updateRepoVariable({
               "owner": "${{ github.repository_owner }}",
-              "repo": "${{ github.repository }}",
+              "repo": "${GITHUB_REPOSITORY#*/}",
               "name": "FIRST_COUNTER",
               "value": "${{ needs.increase.outputs.counter_value }}"
             });
@@ -57,7 +57,7 @@ jobs:
           script: |
             github.rest.actions.createRepoVariable({
               "owner": "${{ github.repository_owner }}",
-              "repo": "${{ github.repository }}",
+              "repo": "${GITHUB_REPOSITORY#*/}",
               "name": "SECOND_COUNTER",
               "value": "${{ needs.increase.outputs.counter_value }}"
             });
