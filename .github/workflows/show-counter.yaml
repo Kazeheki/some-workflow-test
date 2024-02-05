@@ -1,0 +1,31 @@
+name: show counter
+
+on:
+  workflow_call:
+    inputs:
+      user:
+        type: string
+        description: The user the counter should be shown for.
+        required: true
+
+  workflow_dispatch:
+    inputs:
+      user:
+        type: choice
+        options:
+          - FIRST
+          - SECOND
+        description: The user the counter should be shown for.
+        required: true
+
+jobs:
+  show_counter:
+    runs-on:
+      - ubuntu-latest
+    steps:
+      - if: inputs.user == 'FIRST'
+        run: |
+          echo "Counter for FIRST is currently at ${{ vars.FIRST_COUNTER }}" >> "$GITHUB_STEP_SUMMARY"
+      - if: inputs.user == 'SECOND'
+        run: |
+          echo "Counter for SECOND is currently at ${{ vars.SECOND_COUNTER }}" >> "$GITHUB_STEP_SUMMARY"
