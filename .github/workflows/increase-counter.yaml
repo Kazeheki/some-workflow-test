@@ -52,7 +52,7 @@ jobs:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
         with:
           script: |
-            echo context
+            console.log(context)
             # github.rest.actions.updateRepoVariable({
             #   "owner": context.repo.owner,
             #   "repo": context.repo.repo,
