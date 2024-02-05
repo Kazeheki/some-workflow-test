@@ -19,27 +19,9 @@ on:
         required: true
 
 jobs:
-  increase:
-    outputs:
-      counter_value: ${{ steps.result.outputs.counter_value }}
-    runs-on:
-      - ubuntu-latest
-    steps:
-      - if: inputs.user == 'FIRST'
-        run: |
-          echo "COUNTER_VALUE=$((${{vars.FIRST_COUNTER}} + 1))" >> "$GITHUB_ENV"
-      - if: inputs.user == 'SECOND'
-        run: |
-          echo "COUNTER_VALUE=$((${{vars.SECOND_COUNTER}} + 1))" >> "$GITHUB_ENV"
-      - id: result
-        run: |
-          echo "counter_value=$COUNTER_VALUE" >> "$GITHUB_OUTPUT"
-
   update:
     runs-on:
       - ubuntu-latest
-    needs:
-      - increase
     steps:
       - name: generate token
         id: generate_token
@@ -55,9 +37,11 @@ jobs:
           user: ${{ inputs.user }}
         with:
           script: |
-            console.log(context)
+            console.log(context);
 
             const { counterFirst, counterSecond, user } = process.env
+
+            console.log("first counter", counterFirst);
 
             const variableName = `${user}_COUNTER`;
 
