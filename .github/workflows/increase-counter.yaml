@@ -1,0 +1,63 @@
+name: increase counter
+
+on:
+  workflow_call:
+    inputs:
+      user:
+        type: string
+        description: The user the counter should be shown for.
+        required: true
+
+  workflow_dispatch:
+    inputs:
+      user:
+        type: choice
+        options:
+          - FIRST
+          - SECOND
+        description: The user the counter should be shown for.
+        required: true
+
+jobs:
+  increase:
+    outputs:
+      counter_value: ${{ steps.result.outputs.counter_value }}
+    runs-on:
+      - ubuntu-latest
+    steps:
+      - if: inputs.user == 'FIRST'
+        run: |
+          echo "COUNTER_VALUE=$((${{vars.FIRST_COUNTER}} + 1))" >> "$GITHUB_ENV"
+      - if: inputs.user == 'SECOND'
+        run: |
+          echo "COUNTER_VALUE=$((${{vars.SECOND_COUNTER}} + 1))" >> "$GITHUB_ENV"
+      - id: result
+        run: |
+          echo "counter_value=$COUNTER_VALUE" >> "$GITHUB_OUTPUT"
+
+  update:
+    runs-on:
+      - ubuntu-latest
+    needs:
+      - increase
+    steps:
+      - if: inputs.user == 'FIRST'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.actions.createRepoVariable({
+              "$GITHUB_REPOSITORY_OWNER",
+              "$GITHUB_REPOSITORY",
+              "FIRST_COUNTER",
+              "${{ needs.increase.outputs.counter_value }}"
+            });
+      - if: inputs.user == 'SECOND'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.actions.createRepoVariable({
+              "$GITHUB_REPOSITORY_OWNER",
+              "$GITHUB_REPOSITORY",
+              "SECOND_COUNTER",
+              "${{ needs.increase.outputs.counter_value }}"
+            });
