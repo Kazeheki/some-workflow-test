@@ -49,19 +49,19 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            github.rest.actions.createRepoVariable({
-              "$GITHUB_REPOSITORY_OWNER",
-              "$GITHUB_REPOSITORY",
-              "FIRST_COUNTER",
-              "${{ needs.increase.outputs.counter_value }}"
+            github.rest.actions.updateRepoVariable({
+              "owner": "$GITHUB_REPOSITORY_OWNER",
+              "repo": "$GITHUB_REPOSITORY",
+              "name": "FIRST_COUNTER",
+              "value": "${{ needs.increase.outputs.counter_value }}"
             });
       - if: inputs.user == 'SECOND'
         uses: actions/github-script@v7
         with:
           script: |
             github.rest.actions.createRepoVariable({
-              "$GITHUB_REPOSITORY_OWNER",
-              "$GITHUB_REPOSITORY",
-              "SECOND_COUNTER",
-              "${{ needs.increase.outputs.counter_value }}"
+              "owner": "$GITHUB_REPOSITORY_OWNER",
+              "repo": "$GITHUB_REPOSITORY",
+              "name": "SECOND_COUNTER",
+              "value": "${{ needs.increase.outputs.counter_value }}"
             });
