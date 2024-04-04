@@ -66,6 +66,7 @@ jobs:
                 owner: "Kazeheki",
                 repo: "some-workflow-test"
             });
+            console.dir(response);
             const release_id = response?.properties?.id;
             console.log(`release id is ${release_id}`);
             await github.rest.repos.uploadReleaseAsset({
