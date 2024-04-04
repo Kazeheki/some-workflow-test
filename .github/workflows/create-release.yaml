@@ -72,11 +72,12 @@ jobs:
             });
             const release_id = response.data.id;
             console.log(`release id is ${release_id}`);
+            const fs = require('fs').promises;
             await github.rest.repos.uploadReleaseAsset({
                 owner: "Kazeheki",
                 repo: "some-workflow-test",
                 release_id,
                 name: "a-file.txt",
-                data: "@some-file.txt"
+                data: await fs.readFile('./some-text.txt')
             });
 
