@@ -45,6 +45,10 @@ jobs:
     env:
       VERSION: ${{ inputs.version }}
     steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            some-file.txt
       - name: create release
         uses: actions/github-script@v7
         env:
