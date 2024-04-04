@@ -50,34 +50,47 @@ jobs:
           sparse-checkout: |
             some-file.txt
       - name: create release
-        uses: actions/github-script@v7
         env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: v-${{ inputs.version }}
-        with:
-          script: |
-            const { TAG } = process.env;
-
-            await github.rest.repos.createRelease({
-              owner: "Kazeheki",
-              repo: "some-workflow-test",
-              tag_name: TAG
-            });
+        run: |
+          gh release create ${TAG}
       - name: push file to release
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const response = await github.rest.repos.getLatestRelease({
-                owner: "Kazeheki",
-                repo: "some-workflow-test"
-            });
-            const release_id = response.data.id;
-            console.log(`release id is ${release_id}`);
-            const fs = require('fs').promises;
-            await github.rest.repos.uploadReleaseAsset({
-                owner: "Kazeheki",
-                repo: "some-workflow-test",
-                release_id,
-                name: "a-file.txt",
-                data: await fs.readFile('./some-file.txt')
-            });
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: v-${{ inputs.version }}
+        run: |
+          gh release upload ${TAG} './some-file.txt#some text'
+
+#     - name: create release
+#       uses: actions/github-script@v7
+#       env:
+#         TAG: v-${{ inputs.version }}
+#       with:
+#         script: |
+#           const { TAG } = process.env;
+
+#           await github.rest.repos.createRelease({
+#             owner: "Kazeheki",
+#             repo: "some-workflow-test",
+#             tag_name: TAG
+#           });
+#     - name: push file to release
+#       uses: actions/github-script@v7
+#       with:
+#         script: |
+#           const response = await github.rest.repos.getLatestRelease({
+#               owner: "Kazeheki",
+#               repo: "some-workflow-test"
+#           });
+#           const release_id = response.data.id;
+#           console.log(`release id is ${release_id}`);
+#           const fs = require('fs').promises;
+#           await github.rest.repos.uploadReleaseAsset({
+#               owner: "Kazeheki",
+#               repo: "some-workflow-test",
+#               release_id,
+#               name: "a-file.txt",
+#               data: await fs.readFile('./some-file.txt')
+#           });
 
