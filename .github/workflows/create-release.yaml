@@ -1,0 +1,72 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        description: Version, duh..
+
+jobs:
+  tag:
+    name: prepare
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ inputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: setup github author
+        run: |
+          git config --global user.name "GH Action [bot]"
+          git config --global user.email "n/a"
+      - name: change something
+        run: |
+          echo "New version [${VERSION}] added at ($(date '+%F %R'))" >> some-file.txt
+      - name: add and commit
+        run: |
+          git add some-file.txt
+          git commit -m "[bot] added version to some-file.txt"
+      - name: tag
+        run: |
+          git tag "v-${VERSION}"
+      - name: push
+        run: |
+          git pull --rebase
+          git push --follow-tags
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    needs:
+      - prepare
+    env:
+      VERSION: ${{ inputs.version }}
+    steps:
+      - name: create release
+        uses: actions/github-script@v7
+        env:
+          TAG: v-${{ inputs.version }}
+        with:
+          script: |
+            const { TAG } = process.env;
+
+            await github.rest.repos.createRelease({
+              owner: "Kazeheki",
+              repo: "some-workflow-test",
+              tag_name: TAG
+            });
+      - name: push file to release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const release_id = await github.rest.repos.getLatesRelease({
+                owner: "Kazeheki",
+                repo: "some-workflow-test"
+            });
+            await github.rest.repos.uploadReleaseAsset({
+                owner: "Kazeheki",
+                repo: "some-workflow-test",
+                release_id: release_id,
+                name: "a-file.txt",
+                data: "@some-file.txt"
+            });
+
