@@ -78,6 +78,6 @@ jobs:
                 repo: "some-workflow-test",
                 release_id,
                 name: "a-file.txt",
-                data: await fs.readFile('./some-text.txt')
+                data: await fs.readFile('./some-file.txt')
             });
 
