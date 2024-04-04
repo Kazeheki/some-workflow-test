@@ -11,6 +11,8 @@ jobs:
   tag:
     name: prepare
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       VERSION: ${{ inputs.version }}
     steps:
