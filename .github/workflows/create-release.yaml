@@ -66,10 +66,11 @@ jobs:
                 owner: "Kazeheki",
                 repo: "some-workflow-test"
             });
+            console.log(`release id is ${release_id}`);
             await github.rest.repos.uploadReleaseAsset({
                 owner: "Kazeheki",
                 repo: "some-workflow-test",
-                release_id: release_id,
+                release_id,
                 name: "a-file.txt",
                 data: "@some-file.txt"
             });
