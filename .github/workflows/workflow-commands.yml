@@ -1,0 +1,37 @@
+name: something with workflow commands
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  grouping:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "::warning::This is outside"
+          echo "::group::cool group"
+          echo "::notice::From inside"
+          echo "Hello"
+          echo "::endgroup::"
+          echo "outside again"
+  masking:
+    runs-on: ubuntu-latest
+    env:
+      SECRET_VALUE: world
+    steps:
+      - run: echo "::add-mask::$SECRET_VALUE"
+      - run: echo "Hello, $SECRET_VALUE, you mean the world to me."
+  error:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::error::This is an error"
+  environment_stuff:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "first=hello" >> $GITHUB_ENV
+      - run: echo "SECOND=world" >> $GITHUB_ENV
+      - run: env
+      - run: echo "${{ toJSON(env) }}"
+      - run: echo "${{ toJSON(vars) }}"
