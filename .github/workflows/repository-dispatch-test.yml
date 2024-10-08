@@ -1,0 +1,12 @@
+name: My repo dispatch for webhooks
+
+on:
+  repository_dispatch:
+    types:
+      - my_custom_event
+
+jobs:
+  my_job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This was run with ${{ github.event.client_payload.my_data }}"
