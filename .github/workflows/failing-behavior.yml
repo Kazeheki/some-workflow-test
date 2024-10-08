@@ -11,13 +11,13 @@ jobs:
   second:
     runs-on: ubuntu-latest
     steps:
-      - run: exit 0
+      - run: exit 1
   dependent:
     needs: [first, second]
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
       - run: |
-          echo "first: conclusion=${{ needs.first.conclusion }} outcome=${{ needs.first.outcome }}"
-          echo "second: conclusion=${{ needs.second.conclusion }} outcome=${{ needs.second.outcome }}"
+          echo "first: result=${{ needs.first.result }}"
+          echo "second: result=${{ needs.second.result }}"
 
