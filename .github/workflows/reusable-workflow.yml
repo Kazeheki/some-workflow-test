@@ -1,0 +1,23 @@
+name: My reusable workflow
+
+on:
+  workflow_call:
+    outputs:
+      some_word:
+        description: "Returns some word"
+        value: ${{ jobs.my_job.outputs.word }}
+      some_number:
+        description: "Returns some number"
+        value: ${{ jobs.my_job.outputs.number }}
+
+jobs:
+  my_job:
+    runs-on: ubuntu-latest
+    outputs:
+      word: ${{ steps.word_setter.outputs.value }}
+      number: ${{ steps.number_setter.outputs.value }}
+    steps:
+      - id: word_setter
+        run: echo "value=some word" >> "$GITHUB_OUTPUTS"
+      - id: number_setter
+        run: echo "value=3" >> "$GITHUB_OUTPUTS"
