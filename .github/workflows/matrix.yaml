@@ -29,6 +29,10 @@ jobs:
             fail: true
     steps:
       - run: echo "${{ matrix.pet }} ${{ matrix.color }} ${{ matrix.fail }}"
+      - if: ${{ matrix.fail != true }}
+        run: |
+          echo "waiting a bit"
+          sleep 1000
       - if: ${{ matrix.fail == true }}
         run: |
           echo "I'll fail"
