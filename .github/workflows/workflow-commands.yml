@@ -32,6 +32,9 @@ jobs:
     steps:
       - run: echo "first=hello" >> $GITHUB_ENV
       - run: echo "SECOND=world" >> $GITHUB_ENV
-      - run: env
       - run: echo "${{ toJSON(env) }}"
-      - run: echo "${{ toJSON(vars) }}"
+      - run: |
+          echo "${{ env.first }}"
+          echo "${{ env.SECOND }}"
+          echo "$first"
+          echo "$SECOND"
