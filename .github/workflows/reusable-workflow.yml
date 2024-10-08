@@ -18,6 +18,6 @@ jobs:
       number: ${{ steps.number_setter.outputs.value }}
     steps:
       - id: word_setter
-        run: echo "value=some word" >> "$GITHUB_OUTPUTS"
+        run: echo "value=some word" >> "$GITHUB_OUTPUT"
       - id: number_setter
-        run: echo "value=3" >> "$GITHUB_OUTPUTS"
+        run: echo "value=3" >> "$GITHUB_OUTPUT"
