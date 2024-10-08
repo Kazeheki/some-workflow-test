@@ -4,15 +4,33 @@ on:
   workflow_dispatch: {}
 
 jobs:
+# my_job:
+#   runs-on: ubuntu-latest
+#   strategy:
+#     matrix:
+#       pet: [cat, dog]
+#       color: [blue, green]
+#       include:
+#         - pet: cat
+#           color: not_in_there
+#           addition: hello
+#   steps:
+#     - run: echo "${{ toJSON(matrix) }}"
   my_job:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: true
       matrix:
-        pet: [cat, dog]
+        pet: [cat,dog]
         color: [blue, green]
         include:
           - pet: cat
-            color: not_in_there
-            addition: hello
+            color: blue
+            fail: true
     steps:
-      - run: echo "${{ toJSON(matrix) }}"
+      - run: echo "${{ matrix.pet }} ${{ matrix.color }} ${{ matrix.fail }}"
+      - if: ${{ matrix.fail == true }}
+        run: |
+          echo "I'll fail"
+          exit 1
+
