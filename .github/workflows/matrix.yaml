@@ -12,6 +12,7 @@ jobs:
         color: [blue, green]
         include:
           - pet: cat
+            color: not_in_there
             addition: hello
     steps:
       - run: echo "${{ toJSON(matrix) }}"
