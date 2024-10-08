@@ -18,5 +18,7 @@ jobs:
             pet: rabbit
           - color: green
             pet: horse
+          - color: green
+            other: value
     steps:
       - run: echo "${{ toJSON(matrix) }}"
