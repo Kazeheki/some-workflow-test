@@ -22,5 +22,7 @@ jobs:
             other: value
           - color: blue
             other: value
+        exclude:
+          - color: green
     steps:
       - run: echo "${{ toJSON(matrix) }}"
