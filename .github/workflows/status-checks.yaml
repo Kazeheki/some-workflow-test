@@ -16,3 +16,10 @@ jobs:
         run: |
           echo "conclusion: ${{ steps.failing_step.conclusion }}"
           echo "outcome: ${{ steps.failing_step.outcome }}"
+      - name: will also fail (no continue_on_error)
+        id: next_failing
+        run: exit 1
+      - name: after failed step without continue
+        if: ${{ failure() }}
+        run: |
+          echo "I ran"
