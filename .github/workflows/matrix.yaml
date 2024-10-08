@@ -8,21 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        pet: [cat, dog]
-        color: [pink, blue]
+        pet: [dog, cat]
+        color: [blue, pink]
         include:
           - color: green
-          - color: pink
-            pet: bird
-          - color: yellow
-            pet: rabbit
-          - color: green
-            pet: horse
-          - color: green
-            other: value
           - color: blue
-            other: value
-        exclude:
-          - color: green
+            addition: hello
     steps:
       - run: echo "${{ toJSON(matrix) }}"
