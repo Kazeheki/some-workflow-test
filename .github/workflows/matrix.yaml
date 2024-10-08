@@ -9,9 +9,9 @@ jobs:
     strategy:
       matrix:
         pet: [cat, dog]
-        color: [pink, brown]
+        color: [blue, green]
         include:
-          - color: white
-            pet: dog
+          - pet: cat
+            addition: hello
     steps:
       - run: echo "${{ toJSON(matrix) }}"
