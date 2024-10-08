@@ -1,0 +1,22 @@
+name: failing behaviour
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  first:
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 0
+  second:
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 0
+  dependent:
+    needs: [first, second]
+    if: ${{ always() }}
+    steps:
+      - run: |
+          echo "first: conclusion=${{ needs.first.conclusion }} outcome=${{ needs.first.outcome }}"
+          echo "second: conclusion=${{ needs.second.conclusion }} outcome=${{ needs.second.outcome }}"
+
