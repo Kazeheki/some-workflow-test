@@ -19,4 +19,4 @@ jobs:
           - color: green
             pet: horse
     steps:
-      - run: echo ${{ toJSON(matrix) }}
+      - run: echo "${{ toJSON(matrix) }}"
