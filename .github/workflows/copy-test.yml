@@ -11,4 +11,4 @@ jobs:
           uses: actions/checkout@v3
           with:
             fetch-tags: true
-        - run: git describe --dirty=-dirty --match=* --abbrev=7 
+        - run: git describe --dirty=-dirty --abbrev=7 
