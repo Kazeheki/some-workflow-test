@@ -1,0 +1,12 @@
+name: My copy test
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  my_job:
+    runs-on: ubuntu-latest
+    steps:
+        - name: 'check out code repository'
+          uses: actions/checkout@v3
+        - run: git describe --dirty=-dirty --match='*' --abbrev=7 
