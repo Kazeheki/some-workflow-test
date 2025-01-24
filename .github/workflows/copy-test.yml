@@ -10,5 +10,5 @@ jobs:
         - name: 'check out code repository'
           uses: actions/checkout@v3
           with:
-            fetch-tags: 'true'
+            fetch-tags: true
         - run: git describe --dirty=-dirty --match='*' --abbrev=7 
