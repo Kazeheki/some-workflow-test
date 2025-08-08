@@ -14,8 +14,8 @@ jobs:
         - run: |
             rm .github/workflows/self-deleting.yml
             git add .github/workflows/self-deleting.yml
-            git commit -m 'delete workflow'
         - run: |
             git config --global user.name "${BOT_USER}"
             git config --global user.email "${BOT_MAIL}"
+            git commit -m 'delete workflow'
             git push
