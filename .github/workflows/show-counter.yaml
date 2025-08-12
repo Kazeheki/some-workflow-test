@@ -17,7 +17,9 @@ on:
         options:
           - FIRST
           - SECOND
-        description: The user the counter should be shown for.
+        description: |-
+          The user the counter should be shown for.
+          This is also a description writing test.
         required: true
 
 jobs:
